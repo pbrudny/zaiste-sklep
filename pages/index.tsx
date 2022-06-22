@@ -1,13 +1,11 @@
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
+import {Main} from "../components/Main";
+import {Product} from "../components/Product";
+import {Layout} from "../components/Layout";
 
-const Home = () => {
-  return <div className="flex flex-col bg-teal-100 min-h-screen">
-    <Header/>
-    <main className="flex-grow max-w-2xl mx-auto grid p-6 gap-6 sm:grid-cols-2">
-      <img src="https://picsum.photos/1060/536" alt="przykładowy obrazek 1"/>
-      <p>
-        Lorem ipsum dolor sit amet,
+const DATA = {
+  description: `Lorem ipsum dolor sit amet,
         consectetur adipiscing elit.
         Maecenas condimentum gravida libero sit amet eleifend.
         Donec ut ornare libero. Donec egestas metus vitae mauris tempus,
@@ -21,11 +19,20 @@ const Home = () => {
         Phasellus pulvinar tincidunt purus non commodo. Morbi
         nisi nisl, malesuada quis tincidunt mollis, euismod ac
         neque. Ut a pharetra nisl. Proin ut congue turpis.
-        Donec mollis turpis vel ligula lobortis tristique.
-      </p>
-    </main>
+        Donec mollis turpis vel ligula lobortis tristique.`,
+  thumbnailUrl: `https://picsum.photos/1060/536`,
+  thumbnailAlt: `przykładowy obrazek 1`,
+  rating: 4.5,
+}
+
+const Home = () => {
+  return <Layout>
+    <Header/>
+    <Main>
+      <Product data={DATA} />
+    </Main>
     <Footer/>
-  </div>;
+  </Layout>;
 }
 
 export default Home;
