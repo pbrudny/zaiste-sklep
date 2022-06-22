@@ -5,6 +5,7 @@ import {Product} from "../components/Product";
 import {Layout} from "../components/Layout";
 
 const DATA = {
+  title: 'siemka',
   description: `Lorem ipsum dolor sit amet,
         consectetur adipiscing elit.
         Maecenas condimentum gravida libero sit amet eleifend.
