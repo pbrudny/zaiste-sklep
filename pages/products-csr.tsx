@@ -1,7 +1,7 @@
 import {Footer} from "../components/Footer";
 import {Header} from "../components/Header";
 import {Layout} from "../components/Layout";
-import {Product} from "../components/Product";
+import {ProductDetails} from "../components/Product";
 import {useQuery} from "react-query";
 
 const getProducts = async () => {
@@ -26,8 +26,9 @@ export default function ProductsCSRPage() {
     <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
       {data.map((product) => {
         return <li key={product.id} className="shadow-xl border-2">
-          <Product data={
+          <ProductDetails data={
             {
+              id: product.id,
               title: product.title,
               description: product.description,
               thumbnailUrl: product.image,

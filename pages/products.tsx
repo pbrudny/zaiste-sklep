@@ -1,9 +1,8 @@
 import {Footer} from "../components/Footer";
 import {Header} from "../components/Header";
-import {Main} from "../components/Main";
 import {Layout} from "../components/Layout";
 import {InferGetStaticPropsType} from "next";
-import {Product} from "../components/Product";
+import {ProductListItem} from "../components/ProductListItem";
 
 export default function ProductsPage({data}: InferGetStaticPropsType<typeof getStaticProps>) {
   return <Layout>
@@ -11,13 +10,12 @@ export default function ProductsPage({data}: InferGetStaticPropsType<typeof getS
     <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
       {data.map((product) => {
         return <li key={product.id} className="shadow-xl border-2">
-          <Product data={
+          <ProductListItem data={
             {
+              id: product.id,
               title: product.title,
-              description: product.description,
               thumbnailUrl: product.image,
               thumbnailAlt: product.title,
-              rating: product.rating.rate,
             }
           }
           />
@@ -28,9 +26,8 @@ export default function ProductsPage({data}: InferGetStaticPropsType<typeof getS
   </Layout>;
 }
 
-
 export const getStaticProps = async () => {
-  const res = await fetch('https://fakestoreapi.com/products');
+  const res = await fetch('https://fakestoreapi.com/products')
   const data: StoreApiResponse[] = await res.json();
 
   return {

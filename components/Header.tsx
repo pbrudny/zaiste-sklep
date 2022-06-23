@@ -59,7 +59,7 @@ export const Header = () => {
               <div className="hidden sm:block sm:ml-6">
                 <div className="flex space-x-4">
                   <NavLink href={"/"} name={"Główna"} current={router.pathname}/>
-                  <NavLink href={"/users/ja"} name={"Ja"} current={router.pathname}/>
+                  <NavLink href={"/products"} name={"Produkty"} current={router.pathname}/>
                   <NavLink href={"/about"} name={"About"} current={router.pathname}/>
                 </div>
               </div>
@@ -78,7 +78,7 @@ export const Header = () => {
         <div className="sm:hidden" id="mobile-menu">
           <div className="px-2 pt-2 pb-3 space-y-1">
             <NavLinkMobile href={"/"} name={"Główna"} current={router.pathname}/>
-            <NavLinkMobile href={"/users/ja"} name={"Ja"} current={router.pathname}/>
+            <NavLinkMobile href={"/products"} name={"Produkty"} current={router.pathname}/>
             <NavLinkMobile href={"/about"} name={"About"} current={router.pathname}/>
           </div>
         </div>

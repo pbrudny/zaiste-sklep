@@ -1,4 +1,4 @@
-import {Rating} from "./Rating";
+import Link from "next/link";
 
 interface ProductDetails {
   id: number;
@@ -12,18 +12,18 @@ interface ProductDetails {
 type ProductListItem = Pick<ProductDetails,
   "id" | "title" | "thumbnailAlt" | "thumbnailUrl">;
 
-interface ProductProps {
-  data: ProductDetails;
+interface ProductListItemProps {
+  data: ProductListItem;
 }
 
-export const ProductDetails = ({ data }: ProductProps) => {
+export const ProductListItem = ({ data }: ProductListItemProps) => {
   return <>
     <img src={data.thumbnailUrl} alt={data.thumbnailUrl}/>
-    <h2 className="p-4 text-3xl font-bold">{data.title}</h2>
-    <p className="p-4">
-      {data.description}
-    </p>
-    <Rating rating={data.rating}/>
+    <Link href={`/products/${data.id}`}>
+      <a>
+        <h2 className="p-4 text-3xl font-bold">{data.title}</h2>
+      </a>
+    </Link>
   </>;
 }
 
