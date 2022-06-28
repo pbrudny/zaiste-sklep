@@ -4,15 +4,29 @@ import {Layout} from "../components/Layout";
 import {ProductDetails} from "../components/Product";
 import {useQuery} from "react-query";
 import Pagination from "../components/Pagination";
+import {useRouter} from "next/router";
 
-const getProducts = async () => {
-  const res = await fetch('https://naszsklep-api.vercel.app/api/products?take=25&offset=0')
+const PRODUCTS_PER_PAGE = 25;
+
+const getProducts = async (pageNumber: number) => {
+  const offset = (pageNumber - 1) * PRODUCTS_PER_PAGE;
+  const res = await fetch(`https://naszsklep-api.vercel.app/api/products?take=25&offset=${offset}`)
   const data: StoreApiResponse[] = await res.json();
   return data;
 }
 
 export default function ProductsCSRPage() {
-  const {data, error, isLoading} = useQuery('products', getProducts);
+  const router = useRouter();
+
+  const queryParams = router.query;
+  const page: string = Array.isArray(queryParams.page) ? queryParams.page[0] : queryParams.page || "1"
+  const pageNumber = parseInt(page);
+
+  const {
+    data,
+    error,
+    isLoading
+  } = useQuery(['products', pageNumber], () => getProducts(pageNumber), {keepPreviousData: true});
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -42,7 +56,7 @@ export default function ProductsCSRPage() {
       })}
     </ul>
     <div className="max-w-md mx-auto p-5">
-      <Pagination totalPages={10} current={1}/>
+      <Pagination totalPages={10} current={pageNumber}/>
     </div>
     <Footer/>
   </Layout>;
