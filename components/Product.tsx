@@ -1,4 +1,5 @@
 import {Rating} from "./Rating";
+import Image from "next/image";
 
 interface ProductDetails {
   id: number;
@@ -18,7 +19,18 @@ interface ProductProps {
 
 export const ProductDetails = ({ data }: ProductProps) => {
   return <>
-    <img src={data.thumbnailUrl} alt={data.thumbnailUrl}/>
+    <div className={"bg-white p-4"}>
+      <Image
+        src={data.thumbnailUrl}
+        alt={data.thumbnailUrl}
+        layout={"responsive"}
+        width={4}
+        height={3}
+        objectFit={"contain"}
+      />
+    </div>
+
+
     <h2 className="p-4 text-3xl font-bold">{data.title}</h2>
     <p className="p-4">
       {data.description}
