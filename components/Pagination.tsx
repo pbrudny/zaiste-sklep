@@ -6,7 +6,8 @@ interface PaginationProps {
 };
 
 const Pagination = ({totalPages, current}: PaginationProps) => {
-  const pages = [...Array(totalPages).keys()].map(p => p + 1);
+  const indicator = current > 5 ? current - 5 : 1;
+  const pages = [...Array(10).keys()].map(p => p + indicator);
 
   return (
     <nav className="border-t border-gray-200 px-4 flex items-center justify-between sm:px-0">
