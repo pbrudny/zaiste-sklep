@@ -32,7 +32,7 @@ const PaginatedProductsPage = ({data, pageId}: InferGetStaticPropsType<typeof ge
       })}
     </ul>
     <div className="max-w-md mx-auto p-5">
-      <Pagination totalPages={10} current={pageId}/>
+      <Pagination totalPages={160} current={pageId}/>
     </div>
     <Footer/>
   </Layout>;
@@ -49,7 +49,7 @@ export const getStaticPaths = async () => {
         },
       }
     }),
-    fallback: false,
+    fallback: "blocking",
   }
 }
 

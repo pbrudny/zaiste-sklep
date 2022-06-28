@@ -59,7 +59,7 @@ export const Header = () => {
               <div className="hidden sm:block sm:ml-6">
                 <div className="flex space-x-4">
                   <NavLink href={"/"} name={"Główna"} current={router.pathname}/>
-                  <NavLink href={"/products"} name={"Produkty"} current={router.pathname}/>
+                  <NavLink href={"/paginated-products/1"} name={"Produkty"} current={router.pathname}/>
                   <NavLink href={"/about"} name={"About"} current={router.pathname}/>
                 </div>
               </div>
