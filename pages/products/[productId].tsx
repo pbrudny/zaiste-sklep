@@ -8,7 +8,7 @@ const ProductIdPage = ({data}: InferGetStaticPropsType<typeof getStaticProps>) =
   }
 
   return <div>
-    <Link href="/products">
+    <Link href="/paginated-products/1">
       <a>Wróć na stronę główną</a>
     </Link>
     <ProductDetails data={{

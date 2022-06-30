@@ -1,9 +1,9 @@
 import {InferGetStaticPropsType} from "next";
-import {ProductDetails} from "../../components/Product";
 import {Layout} from "../../components/Layout";
 import {Header} from "../../components/Header";
 import Pagination from "../../components/Pagination";
 import {Footer} from "../../components/Footer";
+import {ProductListItem} from "../../components/ProductListItem";
 
 const PRODUCTS_PER_PAGE = 25;
 
@@ -17,14 +17,12 @@ const PaginatedProductsPage = ({data, pageId}: InferGetStaticPropsType<typeof ge
     <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
       {data.map((product) => {
         return <li key={product.id} className="shadow-xl border-2">
-          <ProductDetails data={
+          <ProductListItem data={
             {
               id: product.id,
               title: product.title,
-              description: product.description,
               thumbnailUrl: product.image,
               thumbnailAlt: product.title,
-              rating: product.rating.rate,
             }
           }
           />
