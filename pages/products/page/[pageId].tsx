@@ -1,9 +1,9 @@
 import {InferGetStaticPropsType} from "next";
-import {Layout} from "../../components/Layout";
-import {Header} from "../../components/Header";
-import Pagination from "../../components/Pagination";
-import {Footer} from "../../components/Footer";
-import {ProductListItem} from "../../components/ProductListItem";
+import {Layout} from "../../../components/Layout";
+import {Header} from "../../../components/Header";
+import Pagination from "../../../components/Pagination";
+import {Footer} from "../../../components/Footer";
+import {ProductListItem} from "../../../components/ProductListItem";
 
 const PRODUCTS_PER_PAGE = 25;
 

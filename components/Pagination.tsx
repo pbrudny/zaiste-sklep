@@ -17,7 +17,7 @@ const Pagination = ({totalPages, current}: PaginationProps) => {
               return (
                 <Link
                   key={page}
-                  href={`/paginated-products/${page}`}
+                  href={`/products/page/${page}`}
                 >
                   <a
                     className="border-indigo-500 text-indigo-600 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium"
@@ -32,7 +32,7 @@ const Pagination = ({totalPages, current}: PaginationProps) => {
             return (
               <Link
                 key={page}
-                href={`/paginated-products/${page}`}
+                href={`/products/page/${page}`}
               >
                 <a
                    className="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium"
