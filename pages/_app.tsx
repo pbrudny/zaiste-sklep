@@ -1,16 +1,16 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { QueryClientProvider, QueryClient } from 'react-query'
+import {Layout} from "../components/Layout";
 
 const client = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <>
+  return <Layout>
     <QueryClientProvider client={client}>
       <Component {...pageProps} />
     </QueryClientProvider>
-
-  </>
+  </Layout>
 }
 
 export default MyApp

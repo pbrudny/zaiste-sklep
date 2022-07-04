@@ -1,8 +1,5 @@
 import {InferGetStaticPropsType} from "next";
-import {Layout} from "../../../components/Layout";
-import {Header} from "../../../components/Header";
 import Pagination from "../../../components/Pagination";
-import {Footer} from "../../../components/Footer";
 import {ProductListItem} from "../../../components/ProductListItem";
 
 const PRODUCTS_PER_PAGE = 25;
@@ -12,8 +9,7 @@ const PaginatedProductsPage = ({data, pageId}: InferGetStaticPropsType<typeof ge
     return <div>Coś poszło nie tak...</div>;
   }
 
-  return <Layout>
-    <Header/>
+  return <>
     <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
       {data.map((product) => {
         return <li key={product.id} className="shadow-xl border-2">
@@ -32,8 +28,7 @@ const PaginatedProductsPage = ({data, pageId}: InferGetStaticPropsType<typeof ge
     <div className="max-w-md mx-auto p-5">
       <Pagination totalPages={160} current={pageId}/>
     </div>
-    <Footer/>
-  </Layout>;
+  </>;
 }
 
 export default PaginatedProductsPage;
