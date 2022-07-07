@@ -1,16 +1,17 @@
 import {Rating} from "./Rating";
 import Image from "next/image";
-import ReactMarkdown from "react-markdown";
 import {NextSeo} from "next-seo";
+import ZaisteReactMarkdown from "./ZaisteReactMarkdown";
+import {MarkdownResult} from "../utils";
 
 interface ProductDetails {
   id: number;
   title: string;
   description: string;
-  longDescription: string;
-  thumbnailUrl: string,
-  thumbnailAlt: string,
-  rating: number,
+  longDescription: MarkdownResult;
+  thumbnailUrl: string;
+  thumbnailAlt: string;
+  rating: number;
 }
 
 type ProductListItem = Pick<ProductDetails,
@@ -57,7 +58,7 @@ export const ProductDetails = ({ data }: ProductProps) => {
       {data.description}
     </p>
     <article className="prose lg:prose-xl">
-      <ReactMarkdown>{data.longDescription}</ReactMarkdown>
+      <ZaisteReactMarkdown>{data.longDescription}</ZaisteReactMarkdown>
     </article>
     <Rating rating={data.rating}/>
   </>;
