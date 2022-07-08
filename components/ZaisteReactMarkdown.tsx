@@ -1,17 +1,16 @@
 import Link from "next/link";
 import {MDXRemote} from "next-mdx-remote";
 import {MarkdownResult} from "../utils";
-import {NextRouter, useRouter} from "next/router";
 
-const isExternalURL = (url: string, router: NextRouter) =>{
-  console.log('router: ', router);
-  console.log('origin: ',(new URL(url).origin) );
-  return new URL(url).origin !== router?.pathname;
+const isExternalURL = (url:string) => {
+  if (process?.title === 'browser') {
+    return new URL(url).origin !== location.origin;
+  }
+
+  return false;
 }
 
 const ZaisteReactMarkdown = ({ children }: { children: MarkdownResult }) => {
-  const router = useRouter();
-
   return <MDXRemote
     {...children}
     components={{
@@ -20,7 +19,7 @@ const ZaisteReactMarkdown = ({ children }: { children: MarkdownResult }) => {
         return <a {...props}></a>
       }
 
-      if (isExternalURL(href, router)) {
+      if (isExternalURL(href)) {
         return <a {...props} rel="noopener noreferrer"></a>
       }
 
