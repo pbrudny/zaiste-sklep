@@ -1,4 +1,4 @@
-import {createContext, ReactNode, useContext, useState} from "react";
+import {createContext, ReactNode, useContext, useEffect, useState} from "react";
 import cart from "../../pages/cart";
 
 interface CartItem {
@@ -15,6 +15,24 @@ interface CartState {
 
 }
 
+const getCartItemsFromStorage = () => {
+  const itemsFromLocalStorage = localStorage.getItem("ZAISTE_SHOPPING_CART");
+  if (!itemsFromLocalStorage) {
+    return [];
+  }
+  try {
+    const items = JSON.parse(itemsFromLocalStorage);
+    return items;
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
+}
+
+const setCartItemsInStorage = (cartItems: CartItem[]) => {
+  localStorage.setItem("ZAISTE_SHOPPING_CART", JSON.stringify(cartItems))
+}
+
 export const CartStateContext = createContext<CartState | null>(null);
 
 export const CartStateContextProvider = ({
@@ -22,10 +40,18 @@ export const CartStateContextProvider = ({
   } : {
   children: ReactNode;
   }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const addItemToCart = () => {
+  const [cartItems, setCartItems] = useState<CartItem[]>(
+    []
+  );
 
-  }
+  useEffect(() => {
+    setCartItems(getCartItemsFromStorage())
+  }, []);
+
+  useEffect(() => {
+    setCartItemsInStorage(cartItems)
+  }, [cartItems]);
+
   return <CartStateContext.Provider value={{
     items: cartItems,
     addItemToCart: (item) => {
