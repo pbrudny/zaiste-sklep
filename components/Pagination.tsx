@@ -6,9 +6,15 @@ interface PaginationProps {
 };
 
 const Pagination = ({totalPages, current}: PaginationProps) => {
-  const indicator = current > 5 ? current - 5 : 1;
-  const pages = [...Array(10).keys()].map(p => p + indicator);
+  const pages = [...Array(totalPages).keys()].map(p => p + 1);
 
+  // Cases:
+  // only one page
+  // tp <=10 no dots
+  // current <=8 dots on the right before TP
+  // current >= tp - 8 dots on the left after 1
+  // dots on the right before TP and dots on the left after 1
+  console.log('total Pages: ', totalPages);
   return (
     <nav className="border-t border-gray-200 px-4 flex items-center justify-between sm:px-0">
       <div className="hidden md:-mt-px md:flex">
