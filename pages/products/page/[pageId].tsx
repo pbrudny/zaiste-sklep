@@ -1,6 +1,8 @@
 import {InferGetStaticPropsType} from "next";
 import Pagination from "../../../components/Pagination";
 import {ProductListItem} from "../../../components/ProductListItem";
+import {apolloClient} from "../../../graphql/apolloClient";
+import {GetProductsListDocument, GetProductsListQuery} from "../../../generated/graphql";
 
 const PRODUCTS_PER_PAGE = 25;
 
@@ -13,14 +15,14 @@ const PaginatedProductsPage = ({data, pageId, totalProducts}: InferGetStaticProp
 
   return <>
     <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      {data.map((product) => {
-        return <li key={product.id} className="shadow-xl border-2">
+      {data.products.map((product:any) => {
+        return <li key={product.slug} className="shadow-xl border-2">
           <ProductListItem data={
             {
-              id: product.id,
-              title: product.title,
-              thumbnailUrl: product.image,
-              thumbnailAlt: product.title,
+              id: product.slug,
+              title: product.name,
+              thumbnailUrl: product.images[0].url,
+              thumbnailAlt: product.name,
             }
           }
           />
@@ -48,62 +50,19 @@ export const getStaticPaths = async () => {
   }
 }
 
-const getProducts = async (pageNumber: number) => {
-  const offset = (pageNumber - 1) * PRODUCTS_PER_PAGE;
-  const res = await fetch(`https://naszsklep-api.vercel.app/api/products?take=25&offset=${offset}`)
-  const data: StoreApiResponse[] = await res.json();
-  return data;
-}
-
-// Count all the products
-const getTotalProducts = async () => {
-  let total = 0;
-  let offset = 0;
-  let data: StoreApiResponse[];
-
-  do {
-    const res = await fetch(`https://naszsklep-api.vercel.app/api/products?take=1000&offset=${offset}`)
-    data = await res.json();
-    total += data.length;
-    offset += 1000;
-  } while (data.length > 0)
-  return total;
-}
-
-export const getStaticProps = async ({
-  params,
-}: InferGetStaticPaths<typeof getStaticPaths>) => {
-  if (!params?.pageId) {
-    return {
-      props: {},
-      notFound: true,
-    };
-  }
-  const pageNumber = parseInt(params.pageId);
-  const data = await getProducts(pageNumber);
-  const totalProducts = await getTotalProducts();
+export const getStaticProps = async () => {
+  const { data } = await apolloClient.query<GetProductsListQuery>({
+    query: GetProductsListDocument
+  });
 
   return {
     props: {
       data: data,
-      pageId: pageNumber,
-      totalProducts: totalProducts,
+      pageId: 1,
+      totalProducts: 1000,
     },
   }
 };
-
-export interface StoreApiResponse {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  }
-}
 
 export type InferGetStaticPaths<T> = T extends () => Promise<{
     paths: Array<{ params: infer R }>;

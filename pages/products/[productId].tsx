@@ -2,6 +2,13 @@ import {InferGetStaticPropsType} from "next";
 import {ProductDetails} from "../../components/Product";
 import Link from "next/link";
 import {serialize} from "next-mdx-remote/serialize";
+import {apolloClient} from "../../graphql/apolloClient";
+import {gql} from "@apollo/client";
+import {
+  GetProductDetailsBySlugDocument,
+  GetProductDetailsBySlugQuery,
+  GetProductDetailsBySlugQueryVariables, GetProductsSlugsDocument, GetProductsSlugsQuery
+} from "../../generated/graphql";
 
 const ProductIdPage = ({data}: InferGetStaticPropsType<typeof getStaticProps>) => {
   if (!data) {
@@ -16,36 +23,38 @@ const ProductIdPage = ({data}: InferGetStaticPropsType<typeof getStaticProps>) =
       id: data.id,
       title: data.title,
       thumbnailAlt: data.title,
-      thumbnailUrl: data.image,
+      thumbnailUrl: data.images[0].url,
       description: data.description,
       longDescription: data.longDescription,
-      rating: data.rating.rate,
+      rating: 0,
     }}
-     />
+    />
   </div>
 }
 
 export default ProductIdPage;
 
 export const getStaticPaths = async () => {
-  const res = await fetch(`https://naszsklep-api.vercel.app/api/products/`)
-  const data: StoreApiResponse[] = await res.json();
+  const {data} = await apolloClient.query<GetProductsSlugsQuery>({
+    query: GetProductsSlugsDocument,
+  });
 
   return {
-    paths: data.map((product) => {
+    paths: data.products.map((product) => {
       return {
         params: {
-          productId: product.id.toString(),
-        },
+          productId: product.slug
+        }
       }
     }),
-    fallback: "blocking",
+    fallback: false,
   }
 }
 
 export const getStaticProps = async ({
-  params,
-}: InferGetStaticPaths<typeof getStaticPaths>) => {
+   params,
+
+ }: InferGetStaticPaths<typeof getStaticPaths>) => {
   if (!params?.productId) {
     return {
       props: {},
@@ -53,21 +62,29 @@ export const getStaticProps = async ({
     };
   }
 
-  const res = await fetch(`https://naszsklep-api.vercel.app/api/products/${params.productId}`)
-  const data: StoreApiResponse | null = await res.json();
 
-  if (!data) {
+  const {data} = await apolloClient.query<
+    GetProductDetailsBySlugQuery,
+    GetProductDetailsBySlugQueryVariables
+    >({
+    variables: {
+      slug: params.productId
+    },
+    query: GetProductDetailsBySlugDocument
+  });
+
+  if (!data.product) {
     return {
       props: {},
       notFound: true,
-    }
+    };
   }
 
   return {
     props: {
       data: {
-        ...data,
-        longDescription: await serialize(data.longDescription),
+        ...data.product,
+        longDescription: await serialize(data.product.description),
       }
     },
   }
